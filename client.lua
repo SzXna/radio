@@ -1,5 +1,5 @@
 local RadioOpen = false
-local RadioChannel = '(brak)'
+local RadioChannel = '(OFF)'
 local RadioVolume = 50
 
 Citizen.CreateThread(function()
@@ -48,22 +48,22 @@ local function toggleRadio()
 		end,
 		options = {
 			{
-				title = 'Ustawiona częstotliwość: ' .. RadioChannel .. ' MHz',
+				title = 'Set frequency: ' .. RadioChannel .. ' MHz',
 			},
 			{
-				title = 'Ustaw częstotliwość',
-				description = 'od 1 do 250 MHz',
+				title = 'Set frequency',
+				description = '1 to 250 MHz',
 				arrow = true,
 				event = 'radio:set',
 			},
 			{
-				title = 'Ustaw głośność',
-				description = 'od 0 do 100 %',
+				title = 'Set volume',
+				description = '0 to 100 %',
 				arrow = true,
 				event = 'radio:volume',
 			},
 		   {
-				title = 'Wyjdź z kanału',
+				title = 'Exit channel',
 				arrow = false,
 				event = 'radio:leave',
 			}
@@ -73,14 +73,14 @@ local function toggleRadio()
 end
 
 AddEventHandler('radio:set', function()
-	local input = lib.inputDialog('Ustaw częstotliwość', {'od 1 do 250 MHz'})
+	local input = lib.inputDialog('Set frequency', {'1 to 250 MHz'})
 
 	if not input then toggleRadio() end
 	RadioChannel = tonumber(input[1])
 	if RadioChannel == nil or RadioChannel < 1 or RadioChannel > 250 then
-		ESX.ShowNotification('Zakres częstotliwości wyności od 1 do 250 Mhz', "error")
+		ESX.ShowNotification('The frequency range is 1 to 250 Mhz', "error")
 		toggleRadioAnimation(false)
-		RadioChannel = '(brak)'
+		RadioChannel = '(OFF)'
 		RadioOpen = false
 	else
 		if RadioChannel == nil or RadioChannel < 1 or RadioChannel < 11 then
@@ -89,13 +89,13 @@ AddEventHandler('radio:set', function()
 				exports['pma-voice']:setVoiceProperty('radioEnabled', true)
 				exports['pma-voice']:setVoiceProperty('micClicks', true)
 				exports['pma-voice']:setRadioChannel(RadioChannel)
-				ESX.ShowNotification('Ustawiono: ' .. RadioChannel .. ' MHz')
+				ESX.ShowNotification('Set: ' .. RadioChannel .. ' MHz')
 				RadioOpen = true
-				TriggerEvent('InteractSound_CL:PlayOnOne', 'police_radio', 0.10)
+				--TriggerEvent('InteractSound_CL:PlayOnOne', 'police_radio', 0.10)
 			else
-				ESX.ShowNotification('Kanały od 1 do 10 MHz wymagają uprawnień', "error")
+				ESX.ShowNotification('Channels 1 to 10 MHz require permissions', "error")
 				toggleRadioAnimation(false)
-				RadioChannel = '(brak)'
+				RadioChannel = '(OFF)'
 				RadioOpen = false
 			end
 		else
@@ -103,26 +103,26 @@ AddEventHandler('radio:set', function()
 			exports['pma-voice']:setVoiceProperty('radioEnabled', true)
 			exports['pma-voice']:setVoiceProperty('micClicks', true)
 			exports['pma-voice']:setRadioChannel(RadioChannel)
-			TriggerEvent('InteractSound_CL:PlayOnOne', 'police_radio', 0.10)
-			ESX.ShowNotification('Ustawiono: ' .. RadioChannel .. ' MHz')
+			--TriggerEvent('InteractSound_CL:PlayOnOne', 'police_radio', 0.10)
+			ESX.ShowNotification('Set: ' .. RadioChannel .. ' MHz')
 			RadioOpen = true
 		end
 	end
 end)
 
 AddEventHandler('radio:volume', function()
-	local input = lib.inputDialog('Ustaw głośność', {'od 0 do 100 %'})
+	local input = lib.inputDialog('Set volume', {'od 0 do 100 %'})
 
 	if not input then toggleRadio() end
 	RadioVolume = tonumber(input[1])
 	if RadioVolume == nil or RadioVolume < 0 or RadioVolume > 100 then
-		ESX.ShowNotification('Zakres głośności wyności od 0 do 100 %', "error")
+		ESX.ShowNotification('The volume range is 0 to 100 %', "error")
 		toggleRadio()
 		RadioVolume = 50
 	else
 		toggleRadio()
 		exports['pma-voice']:setRadioVolume(RadioVolume)
-		ESX.ShowNotification('Ustawiono: ' .. RadioVolume .. ' %')
+		ESX.ShowNotification('Set: ' .. RadioVolume .. ' %')
 	end
 end)
 
@@ -132,7 +132,7 @@ AddEventHandler('radio:leave', function()
 	exports["pma-voice"]:SetRadioChannel(0)
 	exports["pma-voice"]:removePlayerFromRadio()
 	toggleRadioAnimation(false)
-	RadioChannel = '(brak)'
+	RadioChannel = '(OFF)'
 	RadioOpen = false
 end)
 
@@ -145,7 +145,7 @@ RegisterNetEvent('esx:onPlayerDeath', function()
 	exports['pma-voice']:setVoiceProperty('micClicks', false)
 	exports["pma-voice"]:SetRadioChannel(0)
 	exports["pma-voice"]:removePlayerFromRadio()
-	RadioChannel = '(brak)'
+	RadioChannel = '(OFF)'
 	RadioOpen = false
 end)
 
