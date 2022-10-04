@@ -1,0 +1,7 @@
+{
+    "selectfreq": "Select the Frequency",
+    "setfreq": "Selected Frequency",
+    "errorrange": "The frequency range is 1 to 250 Mhz",
+    "chanperm": "Channels 1 to 10 MHz require permissions",
+    "volerror": "The volume range is 0 to 100 %"
+}
