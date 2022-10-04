@@ -9,6 +9,12 @@ compatible with newest ox_inventory and esx-legacy
 
 preview: https://streamable.com/gjkcar
 
+
+
+## Keybind 
+
+* F10 - Toggle Radio (can be change in the keyboard parameters for each player)
+
 ## Requirements
 
 - es_extended
