@@ -7,21 +7,26 @@ author 'szxna'
 description 'radio'
 version '1.0.0'
 
-shared_scripts {
-	'@es_extended/imports.lua',
-	'@ox_lib/init.lua'
-}
-
-client_scripts {
-    'client.lua',
-}
-
-server_scripts {
-    'server.lua',
-}
-
 dependencies {
 	'es_extended',
 	'ox_lib',
 	'pma-voice'
+}
+
+shared_scripts {
+	'@es_extended/imports.lua',
+	'@ox_lib/init.lua',
+    'shared/*.lua'
+}
+
+server_scripts {
+	'server/*.lua'
+}
+
+client_scripts {
+	'client/*.lua'
+}
+
+files{
+    'locales/*.json'
 }
